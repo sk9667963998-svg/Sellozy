@@ -20,6 +20,7 @@ import {
   Sparkles,
   Hash,
   Signal,
+  Search,
 } from "lucide-react";
 
 // ---------------------------------------------------------------------------
@@ -30,29 +31,102 @@ const BRANDS = [
   { id: "apple", name: "Apple" },
   { id: "samsung", name: "Samsung" },
   { id: "oneplus", name: "OnePlus" },
-  { id: "xiaomi", name: "Xiaomi" },
+  { id: "redmi", name: "Redmi" },
+  { id: "poco", name: "Poco" },
   { id: "vivo", name: "Vivo" },
   { id: "oppo", name: "Oppo" },
+  { id: "moto", name: "Moto" },
+  { id: "realme", name: "Realme" },
 ];
 
-// Each model now has one or more RAM/storage "variants". Base price is per variant.
+// Each model has one or more RAM/storage "variants". Base price is per variant (approx. second-hand INR value).
 const MODELS = {
   apple: [
-    { id: "iphone14", name: "iPhone 14", variants: [{ id: "128", label: "128GB", base: 38000 }, { id: "256", label: "256GB", base: 43000 }] },
-    { id: "iphone13", name: "iPhone 13", variants: [{ id: "128", label: "128GB", base: 28000 }, { id: "256", label: "256GB", base: 32000 }] },
-    { id: "iphone12", name: "iPhone 12", variants: [{ id: "64", label: "64GB", base: 20000 }, { id: "128", label: "128GB", base: 22500 }] },
-    { id: "iphone11", name: "iPhone 11", variants: [{ id: "64", label: "64GB", base: 14500 }] },
+    { id: "iphone16promax", name: "iPhone 16 Pro Max", variants: [{ id: "256", label: "256GB", base: 68000 }] },
+    { id: "iphone16plus", name: "iPhone 16 Plus", variants: [{ id: "128", label: "128GB", base: 56000 }] },
+    { id: "iphone15promax", name: "iPhone 15 Pro Max", variants: [{ id: "256", label: "256GB", base: 68000 }] },
+    { id: "iphone15plus", name: "iPhone 15 Plus", variants: [{ id: "128", label: "128GB", base: 46000 }] },
+    { id: "iphone14plus", name: "iPhone 14 Plus", variants: [{ id: "128", label: "128GB", base: 38000 }] },
+    { id: "iphone14promax", name: "iPhone 14 Pro Max", variants: [{ id: "128", label: "128GB", base: 52000 }] },
+    { id: "iphone13pro", name: "iPhone 13 Pro", variants: [{ id: "128", label: "128GB", base: 36000 }] },
+    { id: "iphone13promax", name: "iPhone 13 Pro Max", variants: [{ id: "128", label: "128GB", base: 42000 }] },
+    { id: "iphonese2020", name: "iPhone SE (2020)", variants: [{ id: "64", label: "64GB", base: 9500 }] },
+    { id: "iphonexsmax", name: "iPhone XS Max", variants: [{ id: "64", label: "64GB", base: 10500 }] },
+    { id: "iphonex", name: "iPhone X", variants: [{ id: "64", label: "64GB", base: 8500 }] },
+    { id: "iphone8", name: "iPhone 8", variants: [{ id: "64", label: "64GB", base: 6500 }] },
+    { id: "iphone16", name: "iPhone 16", variants: [{ id: "128", label: "128GB", base: 52000 }, { id: "256", label: "256GB", base: 58000 }] },
+    { id: "iphone15pro", name: "iPhone 15 Pro", variants: [{ id: "128", label: "128GB", base: 55000 }, { id: "256", label: "256GB", base: 62000 }] },
+    { id: "iphone15", name: "iPhone 15", variants: [{ id: "128", label: "128GB", base: 42000 }, { id: "256", label: "256GB", base: 47000 }] },
+    { id: "iphone14pro", name: "iPhone 14 Pro", variants: [{ id: "128", label: "128GB", base: 46000 }, { id: "256", label: "256GB", base: 52000 }] },
+    { id: "iphone14", name: "iPhone 14", variants: [{ id: "128", label: "128GB", base: 34000 }, { id: "256", label: "256GB", base: 39000 }] },
+    { id: "iphone13", name: "iPhone 13", variants: [{ id: "128", label: "128GB", base: 26000 }, { id: "256", label: "256GB", base: 30000 }] },
+    { id: "iphone13mini", name: "iPhone 13 mini", variants: [{ id: "128", label: "128GB", base: 22000 }] },
+    { id: "iphone12", name: "iPhone 12", variants: [{ id: "64", label: "64GB", base: 18000 }, { id: "128", label: "128GB", base: 20000 }] },
+    { id: "iphone12mini", name: "iPhone 12 mini", variants: [{ id: "64", label: "64GB", base: 15000 }] },
+    { id: "iphone11", name: "iPhone 11", variants: [{ id: "64", label: "64GB", base: 13500 }, { id: "128", label: "128GB", base: 15500 }] },
+    { id: "iphonese2022", name: "iPhone SE (2022)", variants: [{ id: "64", label: "64GB", base: 11000 }, { id: "128", label: "128GB", base: 12500 }] },
+    { id: "iphonexr", name: "iPhone XR", variants: [{ id: "64", label: "64GB", base: 9000 }] },
   ],
   samsung: [
-    { id: "s23", name: "Galaxy S23", variants: [{ id: "256", label: "256GB", base: 32000 }] },
+    { id: "s22ultra", name: "Galaxy S22 Ultra", variants: [{ id: "256", label: "12GB/256GB", base: 38000 }] },
+    { id: "s22", name: "Galaxy S22", variants: [{ id: "128", label: "8GB/128GB", base: 26000 }] },
+    { id: "s20fe", name: "Galaxy S20 FE", variants: [{ id: "128", label: "8GB/128GB", base: 13500 }] },
+    { id: "note10", name: "Galaxy Note 10", variants: [{ id: "256", label: "8GB/256GB", base: 14500 }] },
+    { id: "a73", name: "Galaxy A73", variants: [{ id: "128", label: "8GB/128GB", base: 13000 }] },
+    { id: "a53", name: "Galaxy A53", variants: [{ id: "128", label: "8GB/128GB", base: 12000 }] },
+    { id: "a33", name: "Galaxy A33", variants: [{ id: "128", label: "6GB/128GB", base: 9500 }] },
+    { id: "a24", name: "Galaxy A24", variants: [{ id: "128", label: "6GB/128GB", base: 9800 }] },
+    { id: "a14", name: "Galaxy A14", variants: [{ id: "128", label: "4GB/128GB", base: 6800 }] },
+    { id: "m54", name: "Galaxy M54", variants: [{ id: "128", label: "8GB/128GB", base: 14500 }] },
+    { id: "m33", name: "Galaxy M33", variants: [{ id: "128", label: "6GB/128GB", base: 9800 }] },
+    { id: "m13", name: "Galaxy M13", variants: [{ id: "64", label: "4GB/64GB", base: 6200 }] },
+    { id: "f14", name: "Galaxy F14", variants: [{ id: "128", label: "4GB/128GB", base: 7000 }] },
+    { id: "s24ultra", name: "Galaxy S24 Ultra", variants: [{ id: "256", label: "12GB/256GB", base: 62000 }] },
+    { id: "s24", name: "Galaxy S24", variants: [{ id: "256", label: "8GB/256GB", base: 44000 }] },
+    { id: "s23ultra", name: "Galaxy S23 Ultra", variants: [{ id: "256", label: "12GB/256GB", base: 46000 }] },
+    { id: "s23", name: "Galaxy S23", variants: [{ id: "256", label: "8GB/256GB", base: 32000 }] },
+    { id: "s21fe", name: "Galaxy S21 FE", variants: [{ id: "128", label: "8GB/128GB", base: 15000 }] },
     { id: "s21", name: "Galaxy S21", variants: [{ id: "128", label: "8GB/128GB", base: 16000 }] },
+    { id: "note20", name: "Galaxy Note 20", variants: [{ id: "256", label: "8GB/256GB", base: 17000 }] },
+    { id: "a54", name: "Galaxy A54", variants: [{ id: "128", label: "8GB/128GB", base: 15500 }, { id: "256", label: "8GB/256GB", base: 17000 }] },
+    { id: "a34", name: "Galaxy A34", variants: [{ id: "128", label: "8GB/128GB", base: 11500 }] },
     { id: "m34", name: "Galaxy M34", variants: [{ id: "6-128", label: "6GB/128GB", base: 9500 }, { id: "8-128", label: "8GB/128GB", base: 10200 }] },
+    { id: "m14", name: "Galaxy M14", variants: [{ id: "128", label: "4GB/128GB", base: 7500 }] },
+    { id: "f23", name: "Galaxy F23", variants: [{ id: "128", label: "6GB/128GB", base: 8200 }] },
   ],
   oneplus: [
+    { id: "opnord4", name: "OnePlus Nord 4", variants: [{ id: "256", label: "8GB/256GB", base: 18000 }] },
+    { id: "opncse4", name: "OnePlus Nord CE4", variants: [{ id: "128", label: "8GB/128GB", base: 14500 }] },
+    { id: "op10t", name: "OnePlus 10T", variants: [{ id: "128", label: "8GB/128GB", base: 19000 }] },
+    { id: "opnord2", name: "OnePlus Nord 2", variants: [{ id: "128", label: "8GB/128GB", base: 10500 }] },
+    { id: "op7t", name: "OnePlus 7T", variants: [{ id: "128", label: "8GB/128GB", base: 9500 }] },
+    { id: "op7", name: "OnePlus 7", variants: [{ id: "128", label: "8GB/128GB", base: 8200 }] },
+    { id: "op6t", name: "OnePlus 6T", variants: [{ id: "128", label: "8GB/128GB", base: 7000 }] },
+    { id: "op12", name: "OnePlus 12", variants: [{ id: "256", label: "12GB/256GB", base: 40000 }] },
     { id: "op11", name: "OnePlus 11", variants: [{ id: "256", label: "16GB/256GB", base: 22000 }] },
+    { id: "op10pro", name: "OnePlus 10 Pro", variants: [{ id: "256", label: "12GB/256GB", base: 24000 }] },
+    { id: "op9", name: "OnePlus 9", variants: [{ id: "128", label: "8GB/128GB", base: 15000 }] },
+    { id: "op9r", name: "OnePlus 9R", variants: [{ id: "128", label: "8GB/128GB", base: 13500 }] },
+    { id: "opnord3", name: "OnePlus Nord 3", variants: [{ id: "128", label: "8GB/128GB", base: 14000 }] },
     { id: "opnce3", name: "OnePlus Nord CE 3", variants: [{ id: "8-128", label: "8GB/128GB", base: 12000 }] },
+    { id: "opnce2", name: "OnePlus Nord CE 2", variants: [{ id: "128", label: "6GB/128GB", base: 9500 }] },
+    { id: "op8t", name: "OnePlus 8T", variants: [{ id: "128", label: "8GB/128GB", base: 11500 }] },
   ],
-  xiaomi: [
+  redmi: [
+    { id: "rn13", name: "Redmi Note 13", variants: [{ id: "128", label: "6GB/128GB", base: 10500 }] },
+    { id: "rn11pro", name: "Redmi Note 11 Pro+", variants: [{ id: "128", label: "8GB/128GB", base: 9800 }] },
+    { id: "rn10pro", name: "Redmi Note 10 Pro", variants: [{ id: "128", label: "6GB/128GB", base: 8500 }] },
+    { id: "redmi13", name: "Redmi 13", variants: [{ id: "128", label: "6GB/128GB", base: 7800 }] },
+    { id: "redmi11", name: "Redmi 11 Prime", variants: [{ id: "128", label: "4GB/128GB", base: 6200 }] },
+    { id: "k50i", name: "Redmi K50i", variants: [{ id: "128", label: "8GB/128GB", base: 15500 }] },
+    { id: "rn12_5g", name: "Redmi Note 12 5G", variants: [{ id: "128", label: "6GB/128GB", base: 8800 }] },
+    { id: "rn13pro", name: "Redmi Note 13 Pro", variants: [{ id: "128", label: "8GB/128GB", base: 14000 }, { id: "256", label: "8GB/256GB", base: 16000 }] },
+    { id: "rn12pro", name: "Redmi Note 12 Pro", variants: [{ id: "128", label: "8GB/128GB", base: 11500 }] },
+    { id: "rn12", name: "Redmi Note 12", variants: [{ id: "4-64", label: "4GB/64GB", base: 7000 }, { id: "6-128", label: "6GB/128GB", base: 8200 }] },
+    { id: "rn11", name: "Redmi Note 11", variants: [{ id: "64", label: "4GB/64GB", base: 6500 }, { id: "128", label: "6GB/128GB", base: 7200 }] },
+    { id: "rn10", name: "Redmi Note 10", variants: [{ id: "64", label: "4GB/64GB", base: 5800 }] },
+    { id: "rn9", name: "Redmi Note 9", variants: [{ id: "64", label: "4GB/64GB", base: 4800 }] },
+    { id: "rn8", name: "Redmi Note 8", variants: [{ id: "64", label: "4GB/64GB", base: 4200 }] },
     {
       id: "rn7",
       name: "Redmi Note 7",
@@ -62,11 +136,96 @@ const MODELS = {
         { id: "6-64", label: "6GB/64GB", base: 5400 },
       ],
     },
-    { id: "rn12", name: "Redmi Note 12", variants: [{ id: "4-64", label: "4GB/64GB", base: 7000 }, { id: "6-128", label: "6GB/128GB", base: 8200 }] },
-    { id: "mi13", name: "Xiaomi 13", variants: [{ id: "256", label: "8GB/256GB", base: 24000 }] },
+    { id: "redmi12", name: "Redmi 12", variants: [{ id: "128", label: "4GB/128GB", base: 6500 }] },
+    { id: "redmi10", name: "Redmi 10", variants: [{ id: "64", label: "4GB/64GB", base: 5200 }] },
+    { id: "redmi9", name: "Redmi 9", variants: [{ id: "64", label: "4GB/64GB", base: 4000 }] },
   ],
-  vivo: [{ id: "v27", name: "Vivo V27", variants: [{ id: "8-128", label: "8GB/128GB", base: 11000 }] }],
-  oppo: [{ id: "reno8", name: "Oppo Reno 8", variants: [{ id: "8-128", label: "8GB/128GB", base: 13000 }] }],
+  poco: [
+    { id: "pm4pro", name: "Poco M4 Pro", variants: [{ id: "128", label: "6GB/128GB", base: 8200 }] },
+    { id: "px3pro", name: "Poco X3 Pro", variants: [{ id: "128", label: "6GB/128GB", base: 8500 }] },
+    { id: "pf4", name: "Poco F4", variants: [{ id: "128", label: "6GB/128GB", base: 14500 }] },
+    { id: "pc51", name: "Poco C51", variants: [{ id: "64", label: "4GB/64GB", base: 4500 }] },
+    { id: "pm4", name: "Poco M4", variants: [{ id: "64", label: "4GB/64GB", base: 6000 }] },
+    { id: "pc3", name: "Poco C3", variants: [{ id: "32", label: "3GB/32GB", base: 3200 }] },
+    { id: "pf6", name: "Poco F6", variants: [{ id: "256", label: "8GB/256GB", base: 22000 }] },
+    { id: "pf5", name: "Poco F5", variants: [{ id: "256", label: "8GB/256GB", base: 17500 }] },
+    { id: "px6pro", name: "Poco X6 Pro", variants: [{ id: "256", label: "8GB/256GB", base: 16000 }] },
+    { id: "px5pro", name: "Poco X5 Pro", variants: [{ id: "128", label: "6GB/128GB", base: 11500 }] },
+    { id: "px4pro", name: "Poco X4 Pro", variants: [{ id: "128", label: "6GB/128GB", base: 9500 }] },
+    { id: "pm6pro", name: "Poco M6 Pro", variants: [{ id: "128", label: "6GB/128GB", base: 8500 }] },
+    { id: "pm5", name: "Poco M5", variants: [{ id: "128", label: "4GB/128GB", base: 6800 }] },
+    { id: "pc55", name: "Poco C55", variants: [{ id: "64", label: "4GB/64GB", base: 4800 }] },
+  ],
+  vivo: [
+    { id: "v30", name: "Vivo V30", variants: [{ id: "256", label: "8GB/256GB", base: 24000 }] },
+    { id: "v20", name: "Vivo V20", variants: [{ id: "128", label: "8GB/128GB", base: 9500 }] },
+    { id: "y17s", name: "Vivo Y17s", variants: [{ id: "128", label: "4GB/128GB", base: 8500 }] },
+    { id: "y28", name: "Vivo Y28", variants: [{ id: "128", label: "6GB/128GB", base: 9200 }] },
+    { id: "y02", name: "Vivo Y02", variants: [{ id: "32", label: "2GB/32GB", base: 4000 }] },
+    { id: "x90", name: "Vivo X90", variants: [{ id: "256", label: "12GB/256GB", base: 32000 }] },
+    { id: "x100", name: "Vivo X100", variants: [{ id: "256", label: "12GB/256GB", base: 42000 }] },
+    { id: "v29", name: "Vivo V29", variants: [{ id: "256", label: "8GB/256GB", base: 20000 }] },
+    { id: "v27", name: "Vivo V27", variants: [{ id: "8-128", label: "8GB/128GB", base: 11000 }] },
+    { id: "v25", name: "Vivo V25", variants: [{ id: "128", label: "8GB/128GB", base: 14000 }] },
+    { id: "y100", name: "Vivo Y100", variants: [{ id: "128", label: "8GB/128GB", base: 11000 }] },
+    { id: "y56", name: "Vivo Y56", variants: [{ id: "128", label: "8GB/128GB", base: 9000 }] },
+    { id: "y36", name: "Vivo Y36", variants: [{ id: "128", label: "8GB/128GB", base: 8200 }] },
+    { id: "y21", name: "Vivo Y21", variants: [{ id: "64", label: "4GB/64GB", base: 6500 }] },
+    { id: "t2", name: "Vivo T2", variants: [{ id: "128", label: "8GB/128GB", base: 10500 }] },
+    { id: "t1", name: "Vivo T1", variants: [{ id: "128", label: "6GB/128GB", base: 8800 }] },
+  ],
+  oppo: [
+    { id: "reno10", name: "Oppo Reno 10", variants: [{ id: "256", label: "8GB/256GB", base: 19500 }] },
+    { id: "reno6", name: "Oppo Reno 6", variants: [{ id: "128", label: "8GB/128GB", base: 10500 }] },
+    { id: "a96", name: "Oppo A96", variants: [{ id: "128", label: "6GB/128GB", base: 9200 }] },
+    { id: "a18", name: "Oppo A18", variants: [{ id: "128", label: "4GB/128GB", base: 6200 }] },
+    { id: "k10", name: "Oppo K10", variants: [{ id: "128", label: "6GB/128GB", base: 9500 }] },
+    { id: "findx6", name: "Oppo Find X6", variants: [{ id: "256", label: "12GB/256GB", base: 38000 }] },
+    { id: "reno11", name: "Oppo Reno 11", variants: [{ id: "256", label: "8GB/256GB", base: 22000 }] },
+    { id: "reno8", name: "Oppo Reno 8", variants: [{ id: "8-128", label: "8GB/128GB", base: 13000 }] },
+    { id: "reno7", name: "Oppo Reno 7", variants: [{ id: "128", label: "8GB/128GB", base: 11500 }] },
+    { id: "a78", name: "Oppo A78", variants: [{ id: "128", label: "8GB/128GB", base: 9500 }] },
+    { id: "a58", name: "Oppo A58", variants: [{ id: "128", label: "8GB/128GB", base: 8200 }] },
+    { id: "a38", name: "Oppo A38", variants: [{ id: "64", label: "4GB/64GB", base: 6500 }] },
+    { id: "f21pro", name: "Oppo F21 Pro", variants: [{ id: "128", label: "8GB/128GB", base: 10500 }] },
+    { id: "a17", name: "Oppo A17", variants: [{ id: "64", label: "4GB/64GB", base: 5800 }] },
+  ],
+  moto: [
+    { id: "razr40", name: "Moto Razr 40", variants: [{ id: "256", label: "8GB/256GB", base: 32000 }] },
+    { id: "g32", name: "Moto G32", variants: [{ id: "128", label: "6GB/128GB", base: 7500 }] },
+    { id: "g60", name: "Moto G60", variants: [{ id: "128", label: "6GB/128GB", base: 8500 }] },
+    { id: "onefusion", name: "Moto One Fusion+", variants: [{ id: "128", label: "6GB/128GB", base: 6800 }] },
+    { id: "e13", name: "Moto E13", variants: [{ id: "64", label: "2GB/64GB", base: 3800 }] },
+    { id: "gplay", name: "Moto G Play", variants: [{ id: "32", label: "2GB/32GB", base: 4500 }] },
+    { id: "edge40", name: "Moto Edge 40", variants: [{ id: "256", label: "8GB/256GB", base: 18000 }] },
+    { id: "edge30", name: "Moto Edge 30", variants: [{ id: "128", label: "8GB/128GB", base: 12500 }] },
+    { id: "g84", name: "Moto G84", variants: [{ id: "128", label: "8GB/128GB", base: 11500 }] },
+    { id: "g73", name: "Moto G73", variants: [{ id: "128", label: "8GB/128GB", base: 9200 }] },
+    { id: "g54", name: "Moto G54", variants: [{ id: "128", label: "8GB/128GB", base: 8500 }] },
+    { id: "g53", name: "Moto G53", variants: [{ id: "128", label: "6GB/128GB", base: 7200 }] },
+    { id: "g34", name: "Moto G34", variants: [{ id: "128", label: "4GB/128GB", base: 6800 }] },
+    { id: "g13", name: "Moto G13", variants: [{ id: "64", label: "4GB/64GB", base: 5500 }] },
+    { id: "gpower", name: "Moto G Power", variants: [{ id: "64", label: "4GB/64GB", base: 6200 }] },
+  ],
+  realme: [
+    { id: "gtneo5", name: "Realme GT Neo 5", variants: [{ id: "256", label: "12GB/256GB", base: 24000 }] },
+    { id: "r12x", name: "Realme 12x", variants: [{ id: "128", label: "6GB/128GB", base: 9500 }] },
+    { id: "r8", name: "Realme 8", variants: [{ id: "128", label: "6GB/128GB", base: 7500 }] },
+    { id: "r7", name: "Realme 7", variants: [{ id: "64", label: "6GB/64GB", base: 6800 }] },
+    { id: "r6", name: "Realme 6", variants: [{ id: "128", label: "8GB/128GB", base: 6200 }] },
+    { id: "c51", name: "Realme C51", variants: [{ id: "64", label: "4GB/64GB", base: 5200 }] },
+    { id: "c33", name: "Realme C33", variants: [{ id: "64", label: "4GB/64GB", base: 4800 }] },
+    { id: "narzo70", name: "Realme Narzo 70", variants: [{ id: "128", label: "8GB/128GB", base: 11500 }] },
+    { id: "r12pro", name: "Realme 12 Pro", variants: [{ id: "256", label: "8GB/256GB", base: 16500 }] },
+    { id: "r11pro", name: "Realme 11 Pro", variants: [{ id: "128", label: "8GB/128GB", base: 13500 }] },
+    { id: "r10pro", name: "Realme 10 Pro", variants: [{ id: "128", label: "8GB/128GB", base: 10500 }] },
+    { id: "r9", name: "Realme 9", variants: [{ id: "128", label: "8GB/128GB", base: 9200 }] },
+    { id: "r9i", name: "Realme 9i", variants: [{ id: "128", label: "6GB/128GB", base: 7500 }] },
+    { id: "narzo60", name: "Realme Narzo 60", variants: [{ id: "128", label: "8GB/128GB", base: 9800 }] },
+    { id: "narzo50", name: "Realme Narzo 50", variants: [{ id: "128", label: "6GB/128GB", base: 7800 }] },
+    { id: "c55", name: "Realme C55", variants: [{ id: "128", label: "6GB/128GB", base: 6200 }] },
+    { id: "c35", name: "Realme C35", variants: [{ id: "64", label: "4GB/64GB", base: 5200 }] },
+  ],
 };
 
 const QUESTIONS = [
@@ -203,6 +362,7 @@ export default function PhoneCashApp() {
   const [model, setModel] = useState(null);
   const [variant, setVariant] = useState(null);
   const [qIndex, setQIndex] = useState(0);
+  const [modelSearch, setModelSearch] = useState("");
   const [answers, setAnswers] = useState({});
   const [pickup, setPickup] = useState({
     name: "",
@@ -243,6 +403,7 @@ export default function PhoneCashApp() {
     setVariant(null);
     setAnswers({});
     setQIndex(0);
+    setModelSearch("");
     goto(1);
   };
 
@@ -265,6 +426,35 @@ export default function PhoneCashApp() {
     setQIndex(0);
     goto(3);
   };
+
+  const selectBrandAndModel = (b, m) => {
+    setBrand(b);
+    setModel(m);
+    setAnswers({});
+    setQIndex(0);
+    setModelSearch("");
+    if (m.variants.length === 1) {
+      setVariant(m.variants[0]);
+      goto(3);
+    } else {
+      setVariant(null);
+      goto(2);
+    }
+  };
+
+  const globalSearchResults = useMemo(() => {
+    const q = modelSearch.trim().toLowerCase();
+    if (!q) return [];
+    const results = [];
+    BRANDS.forEach((b) => {
+      (MODELS[b.id] || []).forEach((m) => {
+        if (m.name.toLowerCase().includes(q) || b.name.toLowerCase().includes(q)) {
+          results.push({ brand: b, model: m });
+        }
+      });
+    });
+    return results.slice(0, 20);
+  }, [modelSearch]);
 
   const answerQuestion = (qId, optId) => {
     const next = { ...answers, [qId]: optId };
@@ -444,18 +634,51 @@ export default function PhoneCashApp() {
             <div className="rounded-xl bg-[#131F30] border border-[#22314A] p-6 md:p-8 min-h-[380px] flex flex-col">
               {stepName === "brand" && (
                 <div className="font-body">
-                  <h2 className="font-display text-2xl mb-6">Brand chuniye</h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {BRANDS.map((b) => (
-                      <button
-                        key={b.id}
-                        onClick={() => selectBrand(b)}
-                        className="px-4 py-4 rounded-lg border border-[#22314A] bg-[#0B1420] hover:border-[#C9A54D] hover:text-[#C9A54D] transition-colors text-sm font-medium"
-                      >
-                        {b.name}
-                      </button>
-                    ))}
+                  <h2 className="font-display text-2xl mb-4">Apna phone dhundo</h2>
+                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border border-[#22314A] bg-[#0B1420] focus-within:border-[#C9A54D] mb-4">
+                    <Search size={15} className="text-[#5A6B85] shrink-0" />
+                    <input
+                      className="bg-transparent outline-none text-sm w-full placeholder:text-[#5A6B85]"
+                      placeholder="Model search karein, jaise 'Note 12' ya 'iPhone'"
+                      value={modelSearch}
+                      onChange={(e) => setModelSearch(e.target.value)}
+                    />
                   </div>
+
+                  {modelSearch.trim() ? (
+                    <div className="space-y-2">
+                      {globalSearchResults.length === 0 && (
+                        <p className="text-sm text-[#8A97AC]">Koi model nahi mila. Spelling check karein.</p>
+                      )}
+                      {globalSearchResults.map(({ brand: b, model: m }) => (
+                        <button
+                          key={b.id + m.id}
+                          onClick={() => selectBrandAndModel(b, m)}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-[#22314A] bg-[#0B1420] hover:border-[#C9A54D] transition-colors text-left"
+                        >
+                          <span className="text-sm">{m.name} <span className="text-[#5A6B85]">· {b.name}</span></span>
+                          <span className="font-mono text-xs text-[#8A97AC]">
+                            {m.variants.length > 1 ? `${m.variants.length} storage options` : `up to ₹${m.variants[0].base.toLocaleString("en-IN")}`}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-xs text-[#8A97AC] mb-3 font-mono">YA BRAND SE CHUNIYE</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {BRANDS.map((b) => (
+                          <button
+                            key={b.id}
+                            onClick={() => selectBrand(b)}
+                            className="px-4 py-4 rounded-lg border border-[#22314A] bg-[#0B1420] hover:border-[#C9A54D] hover:text-[#C9A54D] transition-colors text-sm font-medium"
+                          >
+                            {b.name}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 
